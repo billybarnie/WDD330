@@ -1,6 +1,6 @@
-async function loadHeaderFooter() {
-    const headerTemplate = await loadTemplate('/partials/header.html');
-    const footerTemplate = await loadTemplate('/partials/footer.html');
+export async function loadHeaderFooter(callback) {
+    const headerTemplate = await loadTemplate('public/partials/header.html');
+    const footerTemplate = await loadTemplate('public/partials/footer.html');
 
     const headerElem = document.getElementById('header');
     headerElem.innerHTML = headerTemplate;
@@ -9,6 +9,10 @@ async function loadHeaderFooter() {
     const footerElem = document.getElementById('footer');
     footerElem.innerHTML = footerTemplate;
     document.body.append(footerElem);
+
+    if (callback) {
+        callback();
+    }
 }
 
 // Function to load a template from a given path
@@ -19,8 +23,3 @@ async function loadTemplate(path) {
     }
     return response.text();
 }
-
-// Call the loadHeaderFooter function when the DOM content is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    loadHeaderFooter();
-});

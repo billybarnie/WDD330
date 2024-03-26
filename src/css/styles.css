@@ -1,0 +1,38 @@
+*{
+    margin: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+img.valLogo {
+    width: 50px;
+}
+
+body {
+    color: white;
+}
+
+#header {
+    height: 120px;
+    background-color: orange;
+}
+
+#vods,
+#leagues,
+#tournaments {
+    height: 700px;
+}
+
+#vods {
+    background-color: aqua;
+}
+
+#leagues {
+    background-color: blue;
+}
+
+#tournaments {
+    background-color: blueviolet;
+}
