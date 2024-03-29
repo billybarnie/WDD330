@@ -1,3 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@100..700&display=swap');
+
+/* Root for main, accent, and font details */
+:root {
+    --primary-color: #0F1923;
+    --secondary-color: #ff5555;
+    --primary-accent: #000;
+    --secondary--accent: #ffffff;
+    --primary-font: "Anton", sans-serif;
+    --font-weight: 400;
+    --secondary-font: "Antonio", sans-serif;
+    --font-weight1: 300;
+    --header2-size: 50px;
+    --p-font-size: 32px;
+}
+
 *{
     margin: 0;
 }
@@ -6,33 +23,139 @@ html {
     scroll-behavior: smooth;
 }
 
-img.valLogo {
-    width: 50px;
+div#separator {
+    padding: 2px;
 }
 
+img.valLogo {
+    width: 50px;
+    float: left;
+}
+
+/* CSS for the Introduction message */
+
+h2#introWel {
+    font-family: var(--primary-font);
+    font-weight: var(--font-weight);
+    font-size: var(--header2-size);
+    text-align: center;
+    padding: 20px;
+}
+
+p#introp {
+    font-family: var(--secondary-font);
+    font-weight: var(--font-weight1);
+    font-size: var(--p-font-size);
+    text-align: center;
+    padding: 100px;
+    color: linear-gradient(to top, var(--primary-accent), var(--secondary--accent));
+}
+
+#intro {
+    background-image: url(../images/intro-background.jpeg);
+    background-repeat: no-repeat;
+    background-position: center;
+    height: auto;
+    background-position: fixed;
+    background-size: cover;
+}
+
+/* css for the vods images */
+.VSDiplay img {
+    width: 100px;
+}
+
+.VStop img {
+    width: 100px;
+}
+
+.VSBottom img {
+    width: 100px;
+}
+
+.VSDisplay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.VStop, .VSBottom {
+    display: flex;
+    align-items: center;
+}
+
+.VSText {
+    margin: 0 10px;
+}
+
+/*
+The following CSS is for the body of the 
+*/
 body {
     color: white;
 }
 
 #header {
     height: 120px;
-    background-color: orange;
+    background-color: var(--primary-color);
+    text-align: center;
 }
 
-#vods,
-#leagues,
-#tournaments {
-    height: 700px;
+nav {
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }
 
 #vods {
-    background-color: aqua;
+    height: auto;
+}
+
+#leagues,
+#tournaments {
+    height: 900px;
+}
+
+#vods {
+    padding: 50px;
+    background-color: var(--primary-color);
 }
 
 #leagues {
-    background-color: blue;
+    background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
 }
 
 #tournaments {
-    background-color: blueviolet;
+    background-color: var(--primary-color);
+}
+
+/* footer CSS */
+#footer {
+    position: relative;
+    z-index: 1;
+    background-color: var(--secondary-color);
+    height: 200px;
+    margin-top: -100px
+}
+
+#footer::before {
+    z-index: 0;
+    content: '';
+    position: absolute;
+    top: -300px;
+    left: 0;
+    right: 0;
+    height: 400px;
+    background: linear-gradient(to bottom left, transparent 50%, var(--secondary-color) 50%);
+}
+
+#footer::after {
+    z-index: 0;
+    content: '';
+    position: absolute;
+    top: -300px;
+    left: 0;
+    right: 0;
+    height: 400px;
+    background: linear-gradient(to bottom right, transparent 50%, var(--secondary-color) 50%);
 }
