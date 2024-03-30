@@ -9,5 +9,12 @@ loadIntro();
 vodSlider.renderSlider();
 //vodSlider.renderCarousel();
 
+document.addEventListener('DOMContentLoaded', async () => {
+    const hamButton = document.getElementById('navToggle');
+    const navigation = document.querySelector('.navbar');
 
+    hamButton.addEventListener('click', async function() {
+        navigation.classList.toggle('open');
 
+    });
+});

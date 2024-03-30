@@ -11,6 +11,7 @@
     --font-weight: 400;
     --secondary-font: "Antonio", sans-serif;
     --font-weight1: 300;
+    --header1-size: 70px;
     --header2-size: 50px;
     --p-font-size: 32px;
 }
@@ -28,7 +29,7 @@ div#separator {
 }
 
 img.valLogo {
-    width: 50px;
+    width: 100px;
     float: left;
 }
 
@@ -101,10 +102,41 @@ body {
     text-align: center;
 }
 
-nav {
+header h1 {
+    font-family: var(--primary-font);
+    font-weight: var(--font-weight);
+    font-size: var(--header1-size);
+    padding-right: 100px;
+}
+
+.navbar {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 40px;
+    right: 10px;
+}
+
+.navbar-links a {
+    margin-top: 20px;
+    padding: 20px;
+    color: var(--secondary--accent);
+    text-decoration: none;
+    font-family: var(--secondary-font);
+    font-weight: var(--font-weight);
+    font-size: 20px;
+    transition: background-color 0.3s;
+}
+
+.navbar-links a:hover {
+    background-color: var(--secondary-color);
+}
+
+input[type="checkbox"]{
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    -webkit-appearance: none;
+    visibility: hidden;
+    display: none;
 }
 
 #vods {
@@ -158,4 +190,57 @@ nav {
     right: 0;
     height: 400px;
     background: linear-gradient(to bottom right, transparent 50%, var(--secondary-color) 50%);
+}
+
+@media screen and (max-width: 900px) {
+
+    .navbar-links a {
+        display: none;
+    }
+
+    #navToggle:checked + .navbar .navbar-links a {
+        display: block;
+    }
+
+    .bar .top {
+        height: 2px;
+        width: 20px;
+        background-color: var(--secondary--accent);
+        border-radius: 20px;
+        position: absolute;
+        top: 40px;
+        right: 40px;
+        transition: 0.3s ease;
+    }
+
+    .bar .bottom {
+        bottom: 20px;
+        height: 2px;
+        width: 20px;
+        background-color: var(--secondary--accent);
+        border-radius: 20px;
+        position: absolute;
+        top: 45px;
+        right: 40px;
+        transition: 0.3s ease;
+    }
+
+    input[type="checkbox"]:checked ~ .bar .top {
+        transform: rotate(-45deg);
+        width: 20px;
+        transform-origin: right;
+        top: 34px;
+    }
+
+    input[type="checkbox"]:checked ~ .bar .bottom {
+        transform: rotate(45deg);
+        width: 20px;
+        transform-origin: right;
+        top: 48px;
+    }
+
+    input[type="checkbox"]:checked  div.navbar {
+        display: block;
+    }
+
 }
