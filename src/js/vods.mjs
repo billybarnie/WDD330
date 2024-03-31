@@ -16,16 +16,6 @@ export function renderVODsTemplate(vod) {
     return VODtemplate;
 }
 
-export function renderCarousel(parameter) {
-
-    const VODCarousel = `
-        <div class="carousel">
-            <div class="testingCArousel"> ${parameter}
-        </div>
-    `
-    return VODCarousel;
-}
-
 export default class VODSlider {
 
     constructor(vods) {
@@ -46,31 +36,6 @@ export default class VODSlider {
       this.vods = vodsArr;
     }
 
-
-    renderCarousels (product) {
-        const numImages = product.Images.ExtraImages;
-        let div = '';
-        if (numImages != null) {
-          for (let i = 0; i < numImages.length; i++) {
-            const imageSelect = `
-                <div class="myImage fade">
-                  <div class="numTest">${i + 1}/${numImages.length}</div>
-                  <img src="${numImages[i].Src}" alt="${numImages[i].Title}">
-                </div>`
-              console.log(numImages);
-              div += imageSelect;
-            } 
-          const arrowButtons = `
-          <a class="previous" onclick="plusSlides(-1)">&#10094;</a>
-          <a class="next" onclick="plusSlides(1)">&#10095;</a>`;
-          div += arrowButtons;
-        } else {
-          return `<img class="divider" src="${product.Images.PrimaryLarge}`
-        }
-        return div;
-      }
-
-    
     renderSlider() {
         const htmlItems = [];
         this.vods.forEach((vod) =>  {
@@ -81,13 +46,4 @@ export default class VODSlider {
 
     }
 
-    /*renderCarousel() {
-        const htmlItems = [];
-        this.vods.forEach((vod) => {
-            htmlItems.push(renderCarousel(parameter));
-        });
-
-        document.querySelector('#vods').innerHTML = htmlItems.join(' ');
-
-    }*/
   }
