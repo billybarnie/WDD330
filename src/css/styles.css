@@ -31,6 +31,10 @@ div#separator {
 img.valLogo {
     width: 100px;
     float: left;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
 }
 
 /* CSS for the Introduction message */
@@ -106,7 +110,8 @@ header h1 {
     font-family: var(--primary-font);
     font-weight: var(--font-weight);
     font-size: var(--header1-size);
-    padding-right: 100px;
+    position: relative;
+    z-index: 2;
 }
 
 .navbar {
@@ -126,17 +131,12 @@ header h1 {
     transition: background-color 0.3s;
 }
 
-.navbar-links a:hover {
-    background-color: var(--secondary-color);
+.hamburger {
+    display: none;
 }
 
-input[type="checkbox"]{
-    position: absolute;
-    top: 40px;
-    right: 40px;
-    -webkit-appearance: none;
-    visibility: hidden;
-    display: none;
+.navbar-links a:hover {
+    background-color: var(--secondary-color);
 }
 
 #vods {
@@ -165,13 +165,10 @@ input[type="checkbox"]{
 #footer {
     position: relative;
     z-index: 1;
-    background-color: var(--secondary-color);
-    height: 200px;
-    margin-top: -100px
 }
 
 #footer::before {
-    z-index: 0;
+    z-index: -1;
     content: '';
     position: absolute;
     top: -300px;
@@ -182,7 +179,7 @@ input[type="checkbox"]{
 }
 
 #footer::after {
-    z-index: 0;
+    z-index: -1;
     content: '';
     position: absolute;
     top: -300px;
@@ -192,55 +189,85 @@ input[type="checkbox"]{
     background: linear-gradient(to bottom right, transparent 50%, var(--secondary-color) 50%);
 }
 
+nav.mobile-nav {
+    display: none;
+}
+
 @media screen and (max-width: 900px) {
 
-    .navbar-links a {
+    .navbar-links {
         display: none;
     }
 
-    #navToggle:checked + .navbar .navbar-links a {
-        display: block;
-    }
-
-    .bar .top {
-        height: 2px;
-        width: 20px;
-        background-color: var(--secondary--accent);
-        border-radius: 20px;
+    .hamburger {
         position: absolute;
-        top: 40px;
-        right: 40px;
-        transition: 0.3s ease;
-    }
-
-    .bar .bottom {
-        bottom: 20px;
-        height: 2px;
-        width: 20px;
-        background-color: var(--secondary--accent);
-        border-radius: 20px;
-        position: absolute;
-        top: 45px;
-        right: 40px;
-        transition: 0.3s ease;
-    }
-
-    input[type="checkbox"]:checked ~ .bar .top {
-        transform: rotate(-45deg);
-        width: 20px;
-        transform-origin: right;
-        top: 34px;
-    }
-
-    input[type="checkbox"]:checked ~ .bar .bottom {
-        transform: rotate(45deg);
-        width: 20px;
-        transform-origin: right;
-        top: 48px;
-    }
-
-    input[type="checkbox"]:checked  div.navbar {
         display: block;
+        right: 40px;
+        width: 35px;
+        cursor: pointer;
+        appearance: none;
+        background: none;
+        outline: none;
+        border: none;
+        z-index: 2;
+    }
+
+    .hamburger .bar, .hamburger:after, .hamburger:before {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 2.5px;
+        background-color: var(--secondary--accent);
+        margin: 6px 0px;
+        transition: 0.4s;
+    }
+
+    .hamburger.is-active:before {
+        transform: rotate(-45deg) translate(-8px, 6px); 
+    }
+
+    .hamburger.is-active:after {
+        transform: rotate(45deg) translate(-6px, -4px); 
+    }
+
+    .hamburger.is-active .bar {
+        opacity: 0;
+    }
+
+    nav.mobile-nav { 
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 100%;
+        width: 100%;
+        min-height: 100vh;
+        z-index: 1;
+        background-color: var(--primary-color);
+        padding-top: 120px;
+        transition: 0.4s;
+    }
+
+    .mobile-nav.is-active {
+        left: 0;
+    }
+
+    .mobile-nav a {
+        font-size: var(--p-font-size);
+        font-family: var(--secondary-font);
+        font-weight: var(--font-weight1);
+        display: block;
+        width: 100%;
+        max-width: 200px;
+        margin: 0 auto 16px;
+        text-align: center;
+        padding: 12px 16px;
+        background-color: var(--secondary-color);
+        color: var(--secondary--accent);
+        text-decoration: none;
+    }
+
+    .mobile-nav a:hover {
+        background-color: #ff7777;
     }
 
 }
