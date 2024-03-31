@@ -1,9 +1,5 @@
 import { fetchVODs } from "./api.mjs";
 
-window.plusSlides = function(n) {
-    showSlides(slideIndex += n);
-}
-
 export function renderVODsTemplate(vod) {
 
     const VODtemplate = `

@@ -8,4 +8,3 @@ const vodSlider = new VODSlider(vods, 30);
 loadHeaderFooter(setup);
 loadIntro();
 vodSlider.renderSlider();
-//vodSlider.renderCarousel();

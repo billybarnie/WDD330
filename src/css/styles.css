@@ -24,6 +24,11 @@ html {
     scroll-behavior: smooth;
 }
 
+main {
+    font-weight: var(--font-weight1);
+    font-family: var(--secondary-font);
+}
+
 div#separator {
     padding: 2px;
 }
@@ -53,11 +58,13 @@ p#introp {
     font-size: var(--p-font-size);
     text-align: center;
     padding: 100px;
-    color: linear-gradient(to top, var(--primary-accent), var(--secondary--accent));
+    color: var(--secondary--accent);
 }
 
+
+
 #intro {
-    background-image: url(../images/intro-background.jpeg);
+    background-image: url(../images/valorant-test-image.jpeg);
     background-repeat: no-repeat;
     background-position: center;
     height: auto;
@@ -82,6 +89,15 @@ p#introp {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--secondary-color);
+}
+
+#vods {
+    display: grid;
+    justify-content: center;
 }
 
 .VStop, .VSBottom {
@@ -166,6 +182,18 @@ header h1 {
 #footer {
     position: relative;
     z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+    justify-content: center;
+    grid-gap: 10px;
+    font-weight: var(--font-weight);
+    font-family: var(--primary-font);
+    place-items: center;
+}
+
+#footer p {
+    transform: translateY(-50px); /* Adjust the value as needed */
 }
 
 #footer::before {
@@ -271,4 +299,24 @@ nav.mobile-nav {
         background-color: #ff7777;
     }
 
+    #footer {
+        display: flex;
+        flex-direction: column;
+        height: 20px;
+        margin: 0;
+    }
+
+    #footer p {
+        transform: translateY(0px);
+    }
+
+    p#introp {
+        padding: 40px;
+    }
+
+    #intro {
+        background-image: url(../images/valorant-mobile-image.webp);
+    }
+
 }
+
