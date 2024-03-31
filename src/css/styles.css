@@ -107,6 +107,7 @@ body {
 }
 
 header h1 {
+    pointer-events: none;
     font-family: var(--primary-font);
     font-weight: var(--font-weight);
     font-size: var(--header1-size);
