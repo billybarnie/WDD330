@@ -11,7 +11,7 @@
 <body>
     <header id="header"></header>
     <nav class="mobile-nav">
-        <a href="#vods">Vods</a>
+        <a href="#vods">Matches</a>
         <a href="#leagues">Leagues</a>
         <a href="#tournaments">Tournaments</a>
     </nav>
@@ -19,11 +19,20 @@
         <section id="intro"></section>
         <div id="separator"></div>
         <section id="matches">
+            <button id="expand">Expand</button>
+            <section id="match-info"></section>
             <div id="vods"></div>
         </section>
-        <section id="leagues">Leagues</section>
+        <section id="leagues">            
+            <h2 id="sheader">LEAGUES!</h2>
+            <div id="leaguescarousel"></div>
+            <div id="league-info info"></div>
+        </section>
         <div id="separator"></div>
-        <section id="tournaments">Tournaments</section>
+        <section id="tournaments">
+            <h2 id="sheader">TOURNAMENTS!</h2>
+            <div id="tournament-info info"></div>
+        </section>
     </main>
     <footer id="footer"></footer>
 </body>

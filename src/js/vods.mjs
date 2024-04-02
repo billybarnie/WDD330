@@ -34,12 +34,29 @@ export default class VODSlider {
 
     renderSlider() {
         const htmlItems = [];
-        this.vods.forEach((vod) =>  {
-            htmlItems.push(renderVODsTemplate(vod));
-        });
+        const maxItems = document.getElementById('matches').classList.contains('expanded') ? this.vods.length : 5;
+        for (let i = 0; i < maxItems; i++)  {
+            htmlItems.push(renderVODsTemplate(this.vods[i]));
+        };
 
         document.querySelector('#vods').innerHTML = htmlItems.join(' ');
 
+    }
+
+    expandContent() {
+        const button = document.getElementById('expand');
+        const content = document.getElementById('matches');
+        
+        button.addEventListener('click', () => {
+            content.classList.toggle('expanded');
+            if (content.classList.contains('expanded')) {
+                button.textContent = 'Collapse';
+            } else {
+                button.textContent = 'Expand';
+            }
+
+            this.renderSlider();
+        });
     }
 
   }

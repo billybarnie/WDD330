@@ -95,9 +95,34 @@ p#introp {
     background-color: var(--secondary-color);
 }
 
+.leagueLogo {
+    width: 100px;
+}
+
 #vods {
     display: grid;
     justify-content: center;
+}
+
+#matches {
+    background-color: var(--primary-color);
+}
+
+#expand {
+    background-color: var(--primary-color);
+    font-family: var(--primary-font);
+    font-weight: var(--font-weight);
+    color: var(--secondary--accent);
+
+    position: relative;
+    top: 20px;
+    left: 20px;
+    border: none;
+}
+
+#expand:hover {
+    background-color: var(--secondary-color);
+    transition: .4s ease;
 }
 
 .VStop, .VSBottom {
@@ -156,11 +181,17 @@ header h1 {
     background-color: var(--secondary-color);
 }
 
-#vods {
+#sheader {
+    text-align: center;
+    font-size: var(--header2-size);
+    font-family: var(--primary-font);
+    font-weight: var(--font-weight);
+}
+
+#vods, #leagues {
     height: auto;
 }
 
-#leagues,
 #tournaments {
     height: 900px;
 }
@@ -308,7 +339,7 @@ nav.mobile-nav {
 
     #footer p {
         transform: translateY(0px);
-        
+
     }
 
     p#introp {
