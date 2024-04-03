@@ -464,6 +464,10 @@ nav.mobile-nav {
         background-color: #ff7777;
     }
 
+    #expand {
+        margin: auto;
+    }
+
     .carousel-control-prev {
         left: 40px;
     }

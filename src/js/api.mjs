@@ -43,7 +43,7 @@ export async function fetchTournaments() {
     }
 }
 
-export async function fetchVODs() {
+async function fetchVODs() {
     const url = 'https://valorant-esports.p.rapidapi.com/vods?tournamentId=106994073508509683&limit=50';
 
     const options = {
@@ -61,5 +61,41 @@ export async function fetchVODs() {
     } catch (error) {
         console.error(error);
         return null;
+    }
+}
+
+export async function fetchAndStoreVODs() {
+    try {
+        // Fetch VODs data
+        const vodsData = await fetchVODs();
+
+        // Check if data was successfully fetched
+        if (vodsData) {
+            // Store the fetched data in localStorage
+            localStorage.setItem('vodsData', JSON.stringify(vodsData));
+            console.log('VODs data stored in localStorage.');
+        } else {
+            console.log('Failed to fetch VODs data.');
+        }
+    } catch (error) {
+        console.error('Error fetching and storing VODs data:', error);
+    }
+}
+
+export async function fetchAndStoreTournaments() {
+    try {
+        // Fetch tournaments
+        const tournaments = await fetchTournaments();
+
+        // Check if tournaments were successfully fetched
+        if (tournaments) {
+            // Store tournaments in localStorage
+            localStorage.setItem('tournaments', JSON.stringify(tournaments));
+            console.log('Tournaments fetched and stored successfully:', tournaments);
+        } else {
+            console.log('Failed to fetch tournaments.');
+        }
+    } catch (error) {
+        console.error('Error fetching tournaments:', error);
     }
 }
