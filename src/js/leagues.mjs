@@ -1,4 +1,4 @@
-import { fetchTournaments } from "./api.mjs";
+import { fetchLeagues } from "./api.mjs";
 
 export function renderLeaguesTemplate(league) {
 
@@ -32,63 +32,174 @@ export default class leagSlider {
 
     renderContentSlider() {
         const mainContainer = document.getElementById('leaguescarousel');
-        // Iterate over leagues and render each league card
-        Object.keys(this.leagues).forEach(region => {
+        const regionsContainer = this.createRegionsContainer();
+        const toggleButton = this.createToggleButton(regionsContainer);
 
-            const carouselContainer = document.createElement('div');
+        Object.keys(this.leagues).forEach(region => {
+            const carouselContainer = this.createCarouselContainer(region);
+            const regionButton = this.createRegionButton(region, carouselContainer);
+            mainContainer.appendChild(regionButton);
+            mainContainer.appendChild(carouselContainer);
+            if (!this.firstCarouselDisplayed) {
+                carouselContainer.style.display = 'block';
+                this.firstCarouselDisplayed = true;
+            } else {
+                carouselContainer.style.display = 'none';
+            }
+            regionsContainer.appendChild(regionButton);
+        });
+    
+        toggleButton.appendChild(regionsContainer);
+        mainContainer.appendChild(toggleButton);
+    }
+
+    createRegionsContainer() {
+        const regionsContainer = document.createElement('div');
+        regionsContainer.classList.add('regions-container');
+        regionsContainer.style.display = 'none';
+
+        return regionsContainer;
+    }
+
+    createToggleButton(regionsContainer) { 
+
+        const toggleButton = document.createElement('button');
+        toggleButton.textContent = 'Regions';
+
+        const toggleButtonId = 'regionsToggleButton';
+        toggleButton.id = toggleButtonId;
+
+        toggleButton.addEventListener('click', () => {
+            regionsContainer.classList.toggle('show');
+            if (regionsContainer.style.display === 'none') {
+
+                regionsContainer.style.display = 'block';
+
+            } else {
+                regionsContainer.style.display = 'none';
+                
+            }
+        });
+        return toggleButton;
+    }
+
+    createCarouselContainer(region) {
+        const carouselContainer = document.createElement('div');
         carouselContainer.classList.add('carousel');
 
-        // Create an inner container for the carousel items
+        const carouselInner = this.createCarouselInner(region);
+        carouselContainer.appendChild(carouselInner);
+
+        if (this.leagues[region].length === 1) {
+
+        carouselContainer.appendChild(this.createPrevButton(region, carouselInner, true));
+        carouselContainer.appendChild(this.createNextButton(region, carouselInner, true));
+
+        } else {
+
+        carouselContainer.appendChild(this.createPrevButton(region, carouselInner, false));
+        carouselContainer.appendChild(this.createNextButton(region, carouselInner, false));
+
+        }
+
+        return carouselContainer;
+    }
+
+    createCarouselInner(region) {
         const carouselInner = document.createElement('div');
         carouselInner.classList.add('carousel-inner');
 
-        // Access the array of leagues for the current region
-        const leaguesInRegion = this.leagues[region];
-
-        // Iterate over each league in the current region
-        leaguesInRegion.forEach((league, index) => {
-            // Create a carousel item for the league
-            const carouselItem = document.createElement('div');
-            carouselItem.classList.add('carousel-item');
-            // Add 'active' class to the first item
-            if (index === 0) {
-                carouselItem.classList.add('active');
-            }
-
-            // Render the league card HTML using the provided template function
-            const leagueCardHTML = renderLeaguesTemplate(league);
-
-            // Append the league card HTML to the carousel item
-            const tempElement = document.createElement('div');
-                tempElement.innerHTML = leagueCardHTML;
-
-            tempElement.childNodes.forEach(childNode => {
-                carouselItem.appendChild(childNode.cloneNode(true));
-            });
-
-            // Append the carousel item to the carousel inner container
+        this.leagues[region].forEach((league, index) => {
+            const carouselItem = this.createCarouselItem(league, index === 0);
             carouselInner.appendChild(carouselItem);
         });
+        
+        return carouselInner;
+    }
 
-        // Append the carousel inner container to the carousel container
-        carouselContainer.appendChild(carouselInner);
-
-        // Add carousel controls
-        carouselContainer.innerHTML += `
-            <button class="carousel-control-prev" type="button" data-bs-target="#${region}-carousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#${region}-carousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        `;
-
-        // Append the carousel container to the main container
-        mainContainer.appendChild(carouselContainer);
-
+    createCarouselItem(league, isActive) { 
+        const carouselItem = document.createElement('div');
+        carouselItem.classList.add('carousel-item');
+            
+            if (isActive) {
+                carouselItem.classList.add('active');
+            }
+        
+        const leagueCardHTML = renderLeaguesTemplate(league);
+        const tempElement = document.createElement('div');
+        tempElement.innerHTML = leagueCardHTML;
+        tempElement.childNodes.forEach(childNode => {
+            carouselItem.appendChild(childNode.cloneNode(true));
         });
 
+        return carouselItem;
+    }
+
+    createPrevButton(region, carouselInner, hide) {
+        const prevButton = document.createElement('button');
+        prevButton.classList.add('carousel-control-prev');
+        prevButton.type = 'button';
+        prevButton.dataset.bsTarget = `#${region}-carousel`;
+        prevButton.dataset.bsSlide = 'prev';
+        prevButton.innerHTML = `
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">⇦</span>
+        `;
+
+        if(hide == true) {
+            prevButton.style.display = 'none';
+        }
+
+        prevButton.addEventListener('click', () => {
+            const slides = carouselInner.querySelectorAll('.carousel-item');
+            const currentActiveIndex = Array.from(slides).findIndex(slide => slide.classList.contains('active'));
+            const nextIndex = (currentActiveIndex - 1 + slides.length) % slides.length;
+            slides[currentActiveIndex].classList.remove('active');
+            slides[nextIndex].classList.add('active');
+        });
+        return prevButton;
+    }
+
+    createNextButton(region, carouselInner, hide) {
+        const nextButton = document.createElement('button');
+        nextButton.classList.add('carousel-control-next');
+        nextButton.type = 'button';
+        nextButton.dataset.bsTarget = `#${region}-carousel`;
+        nextButton.dataset.bsSlide = 'next';
+        nextButton.innerHTML = `
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">⇨</span>
+        `;
+
+        if(hide == true) {
+            nextButton.style.display = 'none';
+        }
+
+        nextButton.addEventListener('click', () => {
+            const slides = carouselInner.querySelectorAll('.carousel-item');
+            const currentActiveIndex = Array.from(slides).findIndex(slide => slide.classList.contains('active'));
+            const nextIndex = (currentActiveIndex + 1) % slides.length;
+            slides[currentActiveIndex].classList.remove('active');
+            slides[nextIndex].classList.add('active');
+        });
+        return nextButton;
+    }
+
+    createRegionButton(region, carouselContainer) {
+        const regionButton = document.createElement('button');
+
+        const regionButtonId = `regButton`; 
+        regionButton.id = regionButtonId;
+
+            regionButton.textContent = region;
+            regionButton.addEventListener('click', () => {
+
+                document.querySelectorAll('.carousel').forEach(carousel => {
+                    carousel.style.display = 'none';
+                });
+
+                carouselContainer.style.display = 'block';
+            });
+        return regionButton;
     }
 }

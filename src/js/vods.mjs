@@ -34,7 +34,7 @@ export default class VODSlider {
 
     renderSlider() {
         const htmlItems = [];
-        const maxItems = document.getElementById('matches').classList.contains('expanded') ? this.vods.length : 5;
+        const maxItems = document.getElementById('matches').classList.contains('expanded') ? this.vods.length : 6;
         for (let i = 0; i < maxItems; i++)  {
             htmlItems.push(renderVODsTemplate(this.vods[i]));
         };
@@ -59,4 +59,4 @@ export default class VODSlider {
         });
     }
 
-  }
+}
