@@ -15,39 +15,19 @@ export function renderVODsTemplate(vod) {
 export default class VODSlider {
 
     constructor() {
-        // Check if VODs data is in localStorage
+
         const vodsData = localStorage.getItem('vodsData');
 
         if (!vodsData) {
-            // If data is not in localStorage, fetch and store it
+
             this.fetchAndStoreVODs();
         } else {
-            // Parse the data from localStorage
+
             this.parseVODsData(vodsData);
         }
     }
 
-    async fetchAndStoreVODs() {
-        try {
-            // Fetch VODs data
-            const vodsData = await fetchAndStoreVODs();
-
-            // Check if data was successfully fetched
-            if (vodsData) {
-                // Store the fetched data in localStorage
-                localStorage.setItem('vodsData', JSON.stringify(vodsData));
-                console.log('VODs data stored in localStorage.');
-                
-                // Parse the data
-                this.parseVODsData(JSON.stringify(vodsData));
-            } else {
-                console.log('Failed to fetch VODs data.');
-            }
-        } catch (error) {
-            console.error('Error fetching and storing VODs data:', error);
-        }
-    }
-
+    
 
     parseVODsData(vodsData) {
 

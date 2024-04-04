@@ -1,4 +1,5 @@
-import { fetchLeagues } from "./api.mjs";
+import { fetchAndStoreLeagues } from "./api.mjs";
+import { retrieveDataFromLocalStorage } from "./utils.mjs";
 
 export function renderLeaguesTemplate(league) {
 
@@ -15,28 +16,60 @@ export function renderLeaguesTemplate(league) {
 
 export default class leagSlider {
 
-    constructor(teams) {
-        let leaguesArr = {};
-      teams.data.leagues.forEach(league => {
-        let obj = {};
-        obj.leagueName =  league.name;
-        obj.leagueImage = league.image;
-        obj.leagueRegion = league.region;
-        if(!leaguesArr[league.region]) {
-            leaguesArr[league.region] = [];
+    constructor () {
+        this.loading = true;
+
+        retrieveDataFromLocalStorage()
+        .then(leaguesData => {
+            this.loading = false; // Hide loading indicator on successful data retrieval
+            leaguesData ? this.parseLeaguesData(leaguesData) : fetchAndStoreLeagues();
+        })
+        .catch(error => {
+            console.error('Error retrieving leagues data:', error);
+            this.loading = false; // Hide loading indicator on error
+        });
+
+    }
+
+    parseLeaguesData(leaguesData) {
+
+        try {
+            const leagues = JSON.parse(leaguesData);
+
+            if (leagues && leagues.data && leagues.data.leagues) {
+                let leaguesArr = {};
+                leagues.data.leagues.forEach(league => {
+                    let obj = {};
+                    obj.leagueName =  league.name;
+                    obj.leagueImage = league.image;
+                    obj.leagueRegion = league.region;
+                    if(!leaguesArr[league.region]) {
+                        leaguesArr[league.region] = [];
+                    }
+                    leaguesArr[league.region].push(obj);
+                });
+                this.leagues = leaguesArr;
+                this.renderContentSlider();
+            } else {
+                console.error('Invalid leagues data format.');
+            }
+        } catch (error) {
+            console.error('Error fetching and storing leagues data:', error);
         }
-        leaguesArr[league.region].push(obj);
-      });
-      this.leagues = leaguesArr;
     }
 
     renderContentSlider() {
         const mainContainer = document.getElementById('leaguescarousel');
+        mainContainer.innerHTML = '';
+        if (this.loading) {
+            // Show loading indicator
+            mainContainer.innerHTML = '<div class="loading-indicator">Loading...</div>';
+            return;
+        }
         const regionsContainer = this.createRegionsContainer();
         const toggleButton = this.createToggleButton(regionsContainer);
-
-        Object.keys(this.leagues).forEach(region => {
-            const carouselContainer = this.createCarouselContainer(region);
+        Object.entries(this.leagues).forEach(([region, leagues]) => {
+            const carouselContainer = this.createCarouselContainer(region, leagues);
             const regionButton = this.createRegionButton(region, carouselContainer);
             mainContainer.appendChild(regionButton);
             mainContainer.appendChild(carouselContainer);
@@ -57,7 +90,6 @@ export default class leagSlider {
         const regionsContainer = document.createElement('div');
         regionsContainer.classList.add('regions-container');
         regionsContainer.style.display = 'none';
-
         return regionsContainer;
     }
 
@@ -65,10 +97,8 @@ export default class leagSlider {
 
         const toggleButton = document.createElement('button');
         toggleButton.textContent = 'Regions';
-
         const toggleButtonId = 'regionsToggleButton';
         toggleButton.id = toggleButtonId;
-
         toggleButton.addEventListener('click', () => {
             regionsContainer.classList.toggle('show');
             if (regionsContainer.style.display === 'none') {
@@ -86,52 +116,40 @@ export default class leagSlider {
     createCarouselContainer(region) {
         const carouselContainer = document.createElement('div');
         carouselContainer.classList.add('carousel');
-
         const carouselInner = this.createCarouselInner(region);
         carouselContainer.appendChild(carouselInner);
-
         if (this.leagues[region].length === 1) {
-
-        carouselContainer.appendChild(this.createPrevButton(region, carouselInner, true));
-        carouselContainer.appendChild(this.createNextButton(region, carouselInner, true));
-
+            carouselContainer.appendChild(this.createPrevButton(region, carouselInner, true));
+            carouselContainer.appendChild(this.createNextButton(region, carouselInner, true));
         } else {
-
         carouselContainer.appendChild(this.createPrevButton(region, carouselInner, false));
         carouselContainer.appendChild(this.createNextButton(region, carouselInner, false));
-
         }
-
         return carouselContainer;
     }
 
     createCarouselInner(region) {
         const carouselInner = document.createElement('div');
         carouselInner.classList.add('carousel-inner');
-
         this.leagues[region].forEach((league, index) => {
             const carouselItem = this.createCarouselItem(league, index === 0);
             carouselInner.appendChild(carouselItem);
         });
-        
         return carouselInner;
     }
 
     createCarouselItem(league, isActive) { 
         const carouselItem = document.createElement('div');
         carouselItem.classList.add('carousel-item');
-            
             if (isActive) {
                 carouselItem.classList.add('active');
             }
-        
         const leagueCardHTML = renderLeaguesTemplate(league);
         const tempElement = document.createElement('div');
         tempElement.innerHTML = leagueCardHTML;
         tempElement.childNodes.forEach(childNode => {
             carouselItem.appendChild(childNode.cloneNode(true));
         });
-
         return carouselItem;
     }
 
@@ -145,11 +163,9 @@ export default class leagSlider {
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">⇦</span>
         `;
-
         if(hide == true) {
             prevButton.style.display = 'none';
         }
-
         prevButton.addEventListener('click', () => {
             const slides = carouselInner.querySelectorAll('.carousel-item');
             const currentActiveIndex = Array.from(slides).findIndex(slide => slide.classList.contains('active'));
@@ -170,11 +186,9 @@ export default class leagSlider {
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">⇨</span>
         `;
-
         if(hide == true) {
             nextButton.style.display = 'none';
         }
-
         nextButton.addEventListener('click', () => {
             const slides = carouselInner.querySelectorAll('.carousel-item');
             const currentActiveIndex = Array.from(slides).findIndex(slide => slide.classList.contains('active'));
@@ -187,17 +201,13 @@ export default class leagSlider {
 
     createRegionButton(region, carouselContainer) {
         const regionButton = document.createElement('button');
-
         const regionButtonId = `regButton`; 
         regionButton.id = regionButtonId;
-
             regionButton.textContent = region;
             regionButton.addEventListener('click', () => {
-
                 document.querySelectorAll('.carousel').forEach(carousel => {
                     carousel.style.display = 'none';
                 });
-
                 carouselContainer.style.display = 'block';
             });
         return regionButton;

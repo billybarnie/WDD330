@@ -3,7 +3,7 @@
 
 /*fetching all three API's from the external source and puts them 
 inside their respective functions to be manipulated*/
-export async function fetchLeagues() {
+async function fetchLeagues() {
     const url = 'https://valorant-esports.p.rapidapi.com/leagues';
     const options = {
         method: 'GET',
@@ -23,7 +23,26 @@ export async function fetchLeagues() {
     }
 }
 
-export async function fetchTournaments() {
+export async function fetchAndStoreLeagues() {
+    try {
+        // Fetch leagues data
+        const leaguesData = await fetchLeagues();
+
+        // Check if data was successfully fetched
+        if (leaguesData) {
+            // Store the fetched data in localStorage
+            localStorage.setItem('leaguesData', JSON.stringify(leaguesData));
+            console.log('Leagues data stored in localStorage.');
+        } else {
+            console.log('Failed to fetch leagues data.');
+        }
+    } catch (error) {
+        console.error('Error fetching and storing leagues data:', error);
+    }
+}
+
+
+async function fetchTournaments() {
     const url = 'https://valorant-esports.p.rapidapi.com/tournaments';
     const options = {
         method: 'GET',
@@ -40,6 +59,24 @@ export async function fetchTournaments() {
     } catch (error) {
         console.error(error);
         return null;
+    }
+}
+
+export async function fetchAndStoreTournaments() {
+    try {
+        // Fetch tournaments
+        const tournaments = await fetchTournaments();
+
+        // Check if tournaments were successfully fetched
+        if (tournaments) {
+            // Store tournaments in localStorage
+            localStorage.setItem('tournaments', JSON.stringify(tournaments));
+            console.log('Tournaments fetched and stored successfully:', tournaments);
+        } else {
+            console.log('Failed to fetch tournaments.');
+        }
+    } catch (error) {
+        console.error('Error fetching tournaments:', error);
     }
 }
 
@@ -79,23 +116,5 @@ export async function fetchAndStoreVODs() {
         }
     } catch (error) {
         console.error('Error fetching and storing VODs data:', error);
-    }
-}
-
-export async function fetchAndStoreTournaments() {
-    try {
-        // Fetch tournaments
-        const tournaments = await fetchTournaments();
-
-        // Check if tournaments were successfully fetched
-        if (tournaments) {
-            // Store tournaments in localStorage
-            localStorage.setItem('tournaments', JSON.stringify(tournaments));
-            console.log('Tournaments fetched and stored successfully:', tournaments);
-        } else {
-            console.log('Failed to fetch tournaments.');
-        }
-    } catch (error) {
-        console.error('Error fetching tournaments:', error);
     }
 }

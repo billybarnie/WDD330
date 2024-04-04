@@ -48,3 +48,16 @@ async function loadIntroTemple(path) {
     }
     return response.text();
 }
+
+export async function retrieveDataFromLocalStorage() {
+
+    return new Promise((resolve, reject) => {
+    const leaguesData = localStorage.getItem('leaguesData');
+
+    if (leaguesData) {
+        resolve(leaguesData);
+    } else {
+        reject(new Error('No data found in local storage.'));
+    }
+});
+}
