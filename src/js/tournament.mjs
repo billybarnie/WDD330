@@ -6,7 +6,10 @@ export default class TournTable  {
     constructor () {
 
         this.loading = true;
-        this.initialize();
+        this.tournamentsByLeague = {};
+        this.initialize().then(() => {
+            this.renderTournaments();
+        });
 
     }
 
@@ -35,6 +38,7 @@ export default class TournTable  {
 
             if (tournData && tournData.data && tournData.data.leagues) {
                 let tournamentsArr = [];
+                let tournamentsByLeague = {};
                 tournData.data.leagues.forEach(league => {
                     if (league.tournaments && league.tournaments.length > 0) {
                         league.tournaments.forEach(tournament => {
@@ -43,12 +47,20 @@ export default class TournTable  {
                                 obj.leagueName = league.name;
                                 obj.season = tournament.season.name;
                                 tournamentsArr.push(obj);
+
+                                if (!tournamentsByLeague[league.name]) {
+                                    tournamentsByLeague[league.name] = [];
+                                }
+                                tournamentsByLeague[league.name].push(tournament.season.name);
                             }
                         });
                     }
                 });
                 this.tournaments = tournamentsArr;
+                this.tournamentsByLeague = tournamentsByLeague;
                 this.renderTournaments();
+
+                localStorage.setItem('tournaments', JSON.stringify(this.tournaments));
             } else {
                 console.error('Invalid tournament data format.');
             }
@@ -69,7 +81,7 @@ export default class TournTable  {
 
         const table = this.createTable();
         const tableBody = this.createTableBody();
-        const tournamentsByLeague = this.groupTournamentsByLeague();
+        const tournamentsByLeague = this.tournamentsByLeague;
 
         this.createTableHeader(tournamentsByLeague, tableBody);
         this.populateTableBody(tournamentsByLeague, tableBody);
@@ -90,17 +102,6 @@ export default class TournTable  {
 
     createTableBody() {
         return document.createElement('tbody');
-    }
-
-    groupTournamentsByLeague() {
-        const tournamentsByLeague = {};
-        this.tournaments.forEach(tournament => {
-            if (!tournamentsByLeague[tournament.leagueName]) {
-                tournamentsByLeague[tournament.leagueName] = [];
-            }
-            tournamentsByLeague[tournament.leagueName].push(tournament.season);
-        });
-        return tournamentsByLeague;
     }
 
     createTableHeader(tournamentsByLeague, tableBody) {
