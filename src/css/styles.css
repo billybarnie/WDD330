@@ -62,7 +62,7 @@ p#introp {
 }
 
 #intro {
-    background-image: url(/public/images/valorant-test-image.jpeg);
+    background-image: url(../public/images/valorant-test-image.jpeg);
     background-repeat: no-repeat;
     background-position: center;
     height: auto;
@@ -514,7 +514,7 @@ nav.mobile-nav {
     }
 
     #intro {
-        background-image: url(/public/images/valorant-mobile-image.webp);
+        background-image: url(../public/images/valorant-mobile-image.webp);
     }
 
 }
