@@ -1,0 +1,10 @@
+@media screen and (max-width:450px) {
+    .VSDisplay {
+        width: 300px;
+        margin: 0 auto;
+    }
+
+    header h1 {
+        display: none;
+    }
+}

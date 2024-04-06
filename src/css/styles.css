@@ -61,10 +61,8 @@ p#introp {
     color: var(--secondary--accent);
 }
 
-
-
 #intro {
-    background-image: url(../images/valorant-test-image.jpeg);
+    background-image: url(/public/images/valorant-test-image.jpeg);
     background-repeat: no-repeat;
     background-position: center;
     height: auto;
@@ -104,6 +102,9 @@ p#introp {
     justify-content: center;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 20px;
+    height: auto;
+    padding: 50px;
+    background-color: var(--primary-color);
 }
 
 #matches {
@@ -115,7 +116,6 @@ p#introp {
     font-family: var(--primary-font);
     font-weight: var(--font-weight);
     color: var(--secondary--accent);
-
     position: relative;
     top: 20px;
     left: 20px;
@@ -191,9 +191,6 @@ header h1 {
     font-weight: var(--font-weight);
 }
 
-#vods {
-    height: auto;
-}
 
 #separator {
     background-color: var(--secondary--accent);
@@ -229,11 +226,6 @@ tr#row {
 
 td#yearid {
     text-align: center;
-}
-
-#vods {
-    padding: 50px;
-    background-color: var(--primary-color);
 }
 
 #leagues {
@@ -522,7 +514,7 @@ nav.mobile-nav {
     }
 
     #intro {
-        background-image: url(../images/valorant-mobile-image.webp);
+        background-image: url(/public/images/valorant-mobile-image.webp);
     }
 
 }
