@@ -3,14 +3,20 @@ import { loadHeaderFooter, loadIntro } from './utils.mjs';
 import VODSlider from './vods.mjs';
 import { setup } from './animatedNav.js';
 import leagSlider from './leagues.mjs';
+import TournTable from './tournament.mjs';
 
-const vods = await fetchAndStoreVODs();
-const vodSlider = new VODSlider(vods, 30);
-const league = await fetchAndStoreLeagues();
-const leagueSlider = new leagSlider(league);
+
+
 loadHeaderFooter(setup);
 loadIntro();
+const vods = await fetchAndStoreVODs();
+const vodSlider = new VODSlider(vods, 30);
 vodSlider.renderSlider();
 vodSlider.expandContent();
+const league = await fetchAndStoreLeagues();
+const leagueSlider = new leagSlider(league);
 leagueSlider.renderContentSlider();
-fetchAndStoreTournaments();
+const tournaments = await fetchAndStoreTournaments();
+const tourn = new TournTable(tournaments);
+tourn.renderTournaments();
+tourn.setupExpandButton();

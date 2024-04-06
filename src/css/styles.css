@@ -141,6 +141,7 @@ The following CSS is for the body of the
 */
 body {
     color: white;
+    background-color: var(--primary-color);
 }
 
 #header {
@@ -194,12 +195,40 @@ header h1 {
     height: auto;
 }
 
+#separator {
+    background-color: var(--secondary--accent);
+}
+
 #leagues {
     height: 600px;
 }
 
 #tournaments {
-    height: 900px;
+    height: auto;
+}
+
+div#tournamentTable {
+    height: auto;
+    width: 100%;
+    margin-bottom: 240px;
+    background-color: var(--primary-color);
+}
+
+.tournamentTable {
+    margin: auto;
+    width: 100%;
+    padding: 40px;
+}
+
+tr#row:nth-child(even) {background-color: var(--secondary-color);}
+tr#row:nth-child(odd) {background-color: #ffaaaa;}
+
+tr#row {
+    color: var(--primary-color);
+}
+
+td#yearid {
+    text-align: center;
 }
 
 #vods {

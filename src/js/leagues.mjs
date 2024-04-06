@@ -1,5 +1,5 @@
 import { fetchAndStoreLeagues } from "./api.mjs";
-import { retrieveDataFromLocalStorage } from "./utils.mjs";
+import { retrieveLeaguesDataFromLocalStorage } from "./utils.mjs";
 
 export function renderLeaguesTemplate(league) {
 
@@ -19,7 +19,7 @@ export default class leagSlider {
     constructor () {
         this.loading = true;
 
-        retrieveDataFromLocalStorage()
+        retrieveLeaguesDataFromLocalStorage()
         .then(leaguesData => {
             this.loading = false; // Hide loading indicator on successful data retrieval
             leaguesData ? this.parseLeaguesData(leaguesData) : fetchAndStoreLeagues();

@@ -1,4 +1,5 @@
 import { fetchAndStoreVODs } from "./api.mjs";
+import { retrieveVODsDataFromLocalStorage } from "./utils.mjs";
 
 export function renderVODsTemplate(vod) {
 
@@ -16,18 +17,29 @@ export default class VODSlider {
 
     constructor() {
 
-        const vodsData = localStorage.getItem('vodsData');
-
-        if (!vodsData) {
-
-            this.fetchAndStoreVODs();
-        } else {
-
-            this.parseVODsData(vodsData);
-        }
+        this.loading = true;
+        this.initialize();
     }
 
-    
+    async initialize() {
+        try {
+            const vodsData = await retrieveVODsDataFromLocalStorage();
+            if (vodsData) {
+                this.loading = false;
+                this.parseVODsData(vodsData);
+
+            } else {
+                await fetchAndStoreVODs();
+                const updatedVODs = await retrieveVODsDataFromLocalStorage();
+                this.loading = false;
+                this.parseVODsData(updatedVODs);
+
+            }
+        } catch (error) {
+            console.error('Error initializing TournTable:', error);
+            this.loading = false;
+        }
+    }
 
     parseVODsData(vodsData) {
 
@@ -50,17 +62,19 @@ export default class VODSlider {
                         })
                     })
                 });
+                
+                this.vods = vodsArr;
+                this.renderSlider();
             } else {
                 console.error('Invalid VODs data format.');
             }
-            
-            this.vods = vodsArr;
         } catch (error) {
             console.error('Error fetching and storing VODs data:', error);
         }
     }
 
     renderSlider() {
+        if (!this.vods) return;
         const htmlItems = [];
         const maxItems = document.getElementById('matches').classList.contains('expanded') ? this.vods.length : 6;
         for (let i = 0; i < maxItems; i++)  {

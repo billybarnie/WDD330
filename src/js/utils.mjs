@@ -49,7 +49,18 @@ async function loadIntroTemple(path) {
     return response.text();
 }
 
-export async function retrieveDataFromLocalStorage() {
+export async function retrieveVODsDataFromLocalStorage() {
+    return new Promise((resolve, reject) => {
+        const vodsData = localStorage.getItem('vodsData');
+        if (vodsData) {
+            resolve(vodsData);
+        } else {
+            reject(new Error('No VODs data found in local storage.'));
+        }
+    });
+}
+
+export async function retrieveLeaguesDataFromLocalStorage() {
 
     return new Promise((resolve, reject) => {
     const leaguesData = localStorage.getItem('leaguesData');
@@ -61,3 +72,16 @@ export async function retrieveDataFromLocalStorage() {
     }
 });
 }
+
+export async function retrieveTournamentDataFromLocalStorage() {
+    return new Promise((resolve, reject) => {
+        const tournaments = localStorage.getItem('tournaments');
+    
+        if (tournaments) {
+            resolve(tournaments);
+        } else {
+            reject(new Error('No data found in local storage.'));
+        }
+    });
+}
+
