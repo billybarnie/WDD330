@@ -31,8 +31,7 @@ export default class TournTable  {
         }
     }
 
-    parseTournamentsData(tournaments) { 
-        console.log('Parsing tournament data...');
+    parseTournamentsData(tournaments) {
         try {
             const tournData = JSON.parse(tournaments);
 
@@ -87,7 +86,7 @@ export default class TournTable  {
         this.populateTableBody(tournamentsByLeague, tableBody);
 
         table.appendChild(tableBody);
-        container.innerHTML = ''; // Clear existing content
+        container.innerHTML = ''; 
         container.appendChild(table);
 
         this.setupExpandButton();
