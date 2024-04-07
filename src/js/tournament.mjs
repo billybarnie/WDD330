@@ -89,8 +89,6 @@ export default class TournTable  {
         container.innerHTML = ''; 
         container.appendChild(table);
 
-        this.setupExpandButton();
-
     }
 
     createTable() {
@@ -128,38 +126,6 @@ export default class TournTable  {
             });
             tableBody.appendChild(row);
         });
-    }
-
-    setupExpandButton() {
-        const expandButton = document.createElement('button');
-        expandButton.textContent = 'Expand';
-        let expanded = false;
-
-        expandButton.addEventListener('click', () => {
-            const tableRows = document.querySelectorAll('#tournamentTable tbody tr');
-            if (expanded) {
-                tableRows.forEach(row => {
-                    row.style.display = '';
-                });
-                expandButton.textContent = 'Collapse';
-                expanded = false;
-            } else {
-                tableRows.forEach((row, index) => {
-                    if (index >= 10) {
-                        row.style.display = 'none';
-                    }
-                });
-                expandButton.textContent = 'Expand';
-                expanded = true;
-            }
-        });
-
-        const container = document.getElementById('tournamentTable');
-        if (!container) {
-            console.error('Container element not found.');
-            return;
-        }
-        container.parentNode.insertBefore(expandButton, container.nextSibling);
     }
 
     getSeasonsSet(tournamentsByLeague) {

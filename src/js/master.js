@@ -19,4 +19,3 @@ leagueSlider.renderContentSlider();
 const tournaments = await fetchAndStoreTournaments();
 const tourn = new TournTable(tournaments);
 tourn.renderTournaments();
-tourn.setupExpandButton();
