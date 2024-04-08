@@ -105,7 +105,7 @@ header h1 {
 
 #leagues { 
     background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));  
-    height: 600px; 
+    height: auto; 
 }
 
 #tournaments { 
@@ -192,14 +192,19 @@ header h1 {
     margin-bottom: 5px; 
 }
 
-#regionsToggleButton { 
-    display: flex; 
+#regionsToggleButton {
     margin: auto; 
     background: none; 
     border: none; 
     font-family: var(--primary-font); 
     font-weight: var(--font-weight); 
     color: var(--secondary--accent); 
+    position: absolute;
+    top: 0;
+    left: 50%; 
+    transform: translateX(-50%);
+    width: 100%;
+    margin-top: -20px;
 }
 
 #regButton { 
@@ -218,7 +223,7 @@ header h1 {
     display: flex; 
     flex-direction: column; 
     align-items: center; 
-    margin-top: 150px; 
+    margin-top: 90px; 
 }
 
 #footer { 
@@ -232,6 +237,7 @@ header h1 {
     font-weight: var(--font-weight); 
     font-family: var(--primary-font); 
     place-items: center; 
+    background-color: var(--secondary-color);
 }
 
 #footer p { 
@@ -302,10 +308,6 @@ img.valLogo {
     background-color: var(--secondary-color);
 }
 
-.leagueLogo {
-    width: 100px;
-}
-
 #vods {
     display: grid;
     justify-content: center;
@@ -325,9 +327,10 @@ img.valLogo {
     font-family: var(--primary-font);
     font-weight: var(--font-weight);
     color: var(--secondary--accent);
-    position: relative;
-    top: 20px;
-    left: 20px;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
     border: none;
 }
 
@@ -348,7 +351,7 @@ img.valLogo {
 div#tournamentTable {
     height: auto;
     width: 100%;
-    margin-bottom: 240px;
+    margin-bottom: 250px;
     background-color: var(--primary-color);
 }
 
@@ -369,15 +372,8 @@ td#yearid {
     text-align: center;
 }
 
-#regionsToggleButton {
-    position: absolute;
-    top: 0;
-    left: 50%; /* Position at the horizontal center */
-    transform: translateX(-50%); /* Adjust for button width */
-}
-
 .leagueLogo {
-    width: 300px;
+    width: 500px;
 }
 
 /* footer CSS */
@@ -519,6 +515,10 @@ nav.mobile-nav {
     .bottom {
         margin-top: 0;
         margin-right: 45px;
+    }
+
+    .leagueLogo {
+        width: 300px;
     }
 
 }
